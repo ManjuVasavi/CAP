@@ -43,3 +43,21 @@ class Solution {
     }
 }
 
+//Preorder of binary tree
+
+class Solution {
+    List<Integer> l = new LinkedList<Integer>();
+    public List<Integer> preorderTraversal(TreeNode root) {
+        pretraverse(root);
+        return l;
+    }
+    public void pretraverse(TreeNode root){
+        if(root==null){
+            return;
+        }
+        l.add(root.val);
+        pretraverse(root.left);
+        pretraverse(root.right);
+
+    }
+}
