@@ -1,0 +1,14 @@
+//size of binary tree(geeks for geeks)
+  
+  class Tree
+{
+	public static int getSize(Node root)
+	{
+	    if(root==null){
+	        return 0;
+	    }
+	    int left = getSize(root.left);
+	    int right = getSize(root.right);
+	    return left+right+1;
+    }
+}
