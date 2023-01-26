@@ -1,0 +1,21 @@
+//Sum root to leaf numbers
+
+class Solution {
+    int ans = 0;
+    public void result(TreeNode root, int value){
+        //preorder
+        if(root==null){
+            return;
+        }
+        value=value*10+root.val;
+        if(root.left==null && root.right==null){
+            ans+=value;
+        }
+        result(root.left,value);
+        result(root.right,value);
+    }
+    public int sumNumbers(TreeNode root) {
+        result(root,0);
+        return ans;
+    }
+}
