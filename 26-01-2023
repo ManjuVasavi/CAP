@@ -40,3 +40,23 @@ class Solution {
         return b;
     }
 }
+
+//Diameter of binary tree
+
+class Solution {
+    int diameter=0;
+    public int result(TreeNode root){
+        //postorder
+        if(root==null){
+            return 0;
+        }
+        int l = result(root.left);
+        int r = result(root.right);
+        diameter = Math.max(diameter, l+r);
+        return Math.max(l,r)+1;
+    }
+    public int diameterOfBinaryTree(TreeNode root) {
+        result(root);
+        return diameter;
+    }
+}
