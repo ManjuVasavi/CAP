@@ -60,3 +60,27 @@ class Solution {
         return diameter;
     }
 }
+
+//Balanced binary tree
+
+class Solution {
+    boolean b = true;
+    public int result(TreeNode root){
+        if(root==null){
+            return 0;
+        }
+        int l = result(root.left);
+        int r = result(root.right);
+        if(Math.abs(l-r)>1){
+            b=false;
+        }
+        return Math.max(l,r)+1;
+    }
+    public boolean isBalanced(TreeNode root) {
+        if(root==null){
+            return true;
+        }
+        result(root);
+        return b;
+    }
+}
