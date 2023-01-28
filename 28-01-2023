@@ -15,3 +15,33 @@ class Solution {
         return searchBST(root.right,val);
     }
 }
+
+//Insert into binary search tree
+
+class Solution {
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        TreeNode newNode = new TreeNode(val);
+        TreeNode curr = root;
+        TreeNode parent = null;
+        if(root==null){
+            return newNode;
+        }
+        while(curr!=null){
+            parent = curr;
+            if(val<curr.val){
+                curr=curr.left;
+            }
+            else{
+                curr = curr.right;
+            }
+        }
+        if(val<parent.val){
+
+            parent.left = newNode;
+        }
+        else{
+            parent.right = newNode;
+        }
+        return root;
+    }
+}
