@@ -45,3 +45,33 @@ class Solution {
         return root;
     }
 }
+
+//Average of levels in binary tree
+
+class Solution {
+    public List<Double> averageOfLevels(TreeNode root) {
+        List<Double> l = new ArrayList<>();
+        Queue<TreeNode> q = new LinkedList<>();
+        if(root==null){
+            return l;
+        }
+        q.add(root);
+        while(!q.isEmpty()){
+            int size=q.size();
+            double sum=0;
+            for(int i=1;i<=size;i++){
+                TreeNode curr = q.poll();
+                sum+=curr.val;
+                if(curr.left!=null){
+                    q.add(curr.left);
+                }
+                if(curr.right!=null){
+                    q.add(curr.right);
+                }
+            }
+            double d = sum/size;
+            l.add(d);
+        }
+        return l;
+    }
+}
