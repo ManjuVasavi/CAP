@@ -75,3 +75,13 @@ class Solution {
         return l;
     }
 }
+
+//Root equals sum of children
+
+class Solution {
+    public boolean checkTree(TreeNode root) {
+        int d1 = root.left.val;
+        int d2 = root.right.val;
+        return (d1+d2==root.val)?true:false;
+    }
+}
