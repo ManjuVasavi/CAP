@@ -54,3 +54,29 @@ class Solution {
         return min;
     }
 }
+
+//Find bottom tree left value
+
+class Solution {
+    public int findBottomLeftValue(TreeNode root) {
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+        int result = 0;
+        while(!q.isEmpty()){
+            int size=q.size();
+            for(int i=1;i<=size;i++){
+                TreeNode curr = q.poll();
+                if(i==1){
+                    result = curr.val;
+                }
+                if(curr.left!=null){
+                    q.add(curr.left);
+                }
+                if(curr.right!=null){
+                    q.add(curr.right);
+                }
+            }
+        }
+        return result;
+    }
+}
