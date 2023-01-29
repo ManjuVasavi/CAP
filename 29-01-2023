@@ -80,3 +80,52 @@ class Solution {
         return result;
     }
 }
+
+//Top view of binary tree(geeks for geeks)
+
+class Solution
+{
+    //Function to return a list of nodes visible from the top view 
+    //from left to right in Binary Tree.
+    static ArrayList<Integer> topView(Node root)
+    {
+        class QueueNew{
+            int value;
+            Node node;
+            QueueNew(int value, Node node){
+                this.value = value;
+                this.node = node;
+            }
+        }
+        ArrayList<Integer> ar = new ArrayList<>();
+        if(root==null){
+            return ar;
+        }
+        TreeMap<Integer,Integer> tm = new TreeMap<>();
+        Queue<QueueNew> q = new LinkedList<>();
+        //parent value and curr root node
+        q.add(new QueueNew(0,root));
+        while(!q.isEmpty()){
+            int size=q.size();
+            for(int i=1;i<=size;i++){
+                QueueNew curr = q.poll();
+                //check whether it is in treemap or not
+                if(!tm.containsKey(curr.value)){
+                    //curr.value is offset
+                    //curr.node.data is that node's value
+                    tm.put(curr.value,curr.node.data);
+                }
+                if(curr.node.left!=null){
+                    q.add(new QueueNew(curr.value-1,curr.node.left));
+                }
+                if(curr.node.right!=null){
+                    q.add(new QueueNew(curr.value+1,curr.node.right));
+                }
+            }
+        }
+        for(Map.Entry<Integer,Integer> en: tm.entrySet()){
+                ar.add(en.getValue());
+        }
+        return ar;
+    }
+}
