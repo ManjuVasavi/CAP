@@ -31,3 +31,26 @@ class Solution {
         }
     }
 }
+
+//Kth smallest element in a BST
+
+class Solution {
+    int min = Integer.MIN_VALUE;
+    int i=0;
+    public void check(TreeNode root, int k){
+        if(root==null){
+            return;
+        }
+        kthSmallest(root.left,k);
+        i=i+1;
+        if(i==k){
+            min=root.val;
+            return;
+        }
+        kthSmallest(root.right,k);
+    }
+    public int kthSmallest(TreeNode root, int k) {
+        check(root,k);
+        return min;
+    }
+}
