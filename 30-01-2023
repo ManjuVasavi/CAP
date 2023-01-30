@@ -42,3 +42,21 @@ class GfG
     //   System.out.print(s.suc);
     }
 }
+
+//Count complete tree nodes
+
+class Solution {
+    int nodeCount=0;
+    public void check(TreeNode root){
+        if(root==null){
+            return;
+        }
+        check(root.left);
+        nodeCount+=1;
+        check(root.right);
+    }
+    public int countNodes(TreeNode root) {
+        check(root);
+        return nodeCount;
+    }
+}
