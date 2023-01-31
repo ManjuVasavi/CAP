@@ -53,3 +53,33 @@ class Solution {
         return l;
     }
 }
+
+//Construct binary tree from preorder and inorder traversal
+
+class Solution {
+    int preIndex=0;
+    public TreeNode check(int[] pre, int[] in,int inStart,int inEnd,HashMap<Integer,Integer> hm){
+        if(inStart>inEnd){
+            return null;
+        }
+        if(preIndex>pre.length-1){
+            return null;
+        }
+        // System.out.println(preIndex);
+        int inValue = hm.get(pre[preIndex]);
+        TreeNode t = new TreeNode(pre[preIndex++]);
+        // System.out.println(preIndex);
+        t.left=check(pre,in,inStart,inValue-1,hm);
+        t.right=check(pre,in,inValue+1,inEnd,hm);
+        return t;
+    }
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        HashMap<Integer,Integer> hm = new HashMap<>();
+        int preIndex=0;
+        for(int i=0;i<inorder.length;i++){
+            hm.put(inorder[i],i);
+        }
+        TreeNode root=check(preorder,inorder,0,inorder.length-1,hm);
+        return root;
+    }
+}
