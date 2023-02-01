@@ -1,0 +1,40 @@
+//Bottom view of binary tree
+
+public class Solution {
+    public static ArrayList<Integer> bottomView(BinaryTreeNode root) {
+        class queNew{
+            BinaryTreeNode node;
+            int data;
+            queNew(BinaryTreeNode node,int data){
+                this.data=data;
+                this.node=node;
+            }
+        }
+         ArrayList<Integer> ar = new ArrayList<>();
+         if(root==null){
+             return ar;
+         }
+         //treemap first consists offset and then value
+         TreeMap<Integer,Integer> tm = new TreeMap<>();
+         Queue<queNew> q = new LinkedList<>();
+         q.add(new queNew(root,0));
+         while(!q.isEmpty()){
+             int size = q.size();
+             for(int i=1;i<=size;i++){
+                 queNew curr = q.poll();
+                 //add values to treemap
+                 tm.put(curr.data,curr.node.val);
+                 if(curr.node.left!=null){
+                     q.add(new queNew(curr.node.left,curr.data-1));
+                 }
+                 if(curr.node.right!=null){
+                     q.add(new queNew(curr.node.right,curr.data+1));
+                 }
+             }
+         }
+         for(Map.Entry<Integer,Integer> en: tm.entrySet()){
+             ar.add(en.getValue());
+         }
+         return ar;
+    }
+}
