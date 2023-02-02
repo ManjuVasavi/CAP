@@ -1,0 +1,63 @@
+//Convert sorted array to binary search tree
+
+class Solution {
+    public TreeNode check(int[] nums,int st, int en){
+        if(st>en){
+            return null;
+        }
+        int cutVal = (st+en)/2;
+        TreeNode tree = new TreeNode(nums[cutVal]);
+        tree.left = check(nums,st,cutVal-1);
+        tree.right = check(nums,cutVal+1,en);
+        return tree;
+    }
+    public TreeNode sortedArrayToBST(int[] nums) {
+        //int num = nums.length/2;
+        //starting index, and ending index
+        return check(nums,0,nums.length-1);
+    }
+}
+
+//Minimum absolute difference in BST
+
+class Solution {
+    ArrayList<Integer> ar = new ArrayList<>();
+    public void check(TreeNode root){
+        if(root.left!=null){
+            check(root.left);
+        }
+        ar.add(root.val);
+        if(root.right!=null){
+            check(root.right);
+        }
+    }
+    public int getMinimumDifference(TreeNode root) {
+        check(root);
+        int min=Integer.MAX_VALUE;
+        for(int i=1;i<ar.size();i++){
+            min = Math.min(min,ar.get(i)-ar.get(i-1));
+        }
+        return min;
+    }
+}
+
+//Range sum of BST
+
+class Solution {
+    int sum=0;
+    public void check(TreeNode root, int low, int high){
+        if(root==null){
+            return;
+        }
+        check(root.left,low,high);
+        if(root.val>=low && root.val<=high){
+            sum+=root.val;
+        }
+        check(root.right,low,high);
+    }
+    public int rangeSumBST(TreeNode root, int low, int high) {
+        //inorder
+        check(root,low,high);
+        return sum;
+    }
+}
