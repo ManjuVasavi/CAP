@@ -62,3 +62,33 @@ class Solution {
         return root;
     }
 }
+
+//Two sum IV input is a BST
+
+class Solution {
+    ArrayList<Integer> ar = new ArrayList<>();
+    public void check(TreeNode root){
+        if(root==null){
+            return;
+        }
+        check(root.left);
+        ar.add(root.val);
+        check(root.right);
+    }
+    public boolean findTarget(TreeNode root, int k) {
+        check(root);
+        int low=0, high=ar.size()-1;
+        while(low<high){
+            if(ar.get(low)+ar.get(high)==k){
+                return true;
+            }
+            else if(ar.get(low)+ar.get(high)>k){
+                high-=1;
+            }
+            else{
+                low+=1;
+            }
+        }
+        return false;
+    }
+}
