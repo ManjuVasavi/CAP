@@ -41,3 +41,24 @@ class Solution {
         return l;
     }
 }
+
+//convert BST to greater tree
+
+class Solution {
+    //reverse inorder
+    int sum=0;
+    public void check(TreeNode root){
+        if(root==null){
+            return;
+        }
+        check(root.right);
+        System.out.println(sum);
+        sum+=root.val;
+        root.val=sum;
+        check(root.left);
+    }
+    public TreeNode convertBST(TreeNode root) {
+        check(root);
+        return root;
+    }
+}
