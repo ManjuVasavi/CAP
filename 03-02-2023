@@ -1,0 +1,22 @@
+//Validate binary search tree
+
+class Solution {
+    ArrayList<Integer> ar = new ArrayList<>();
+    public void check(TreeNode root){
+        if(root==null){
+            return;
+        }
+        check(root.left);
+        ar.add(root.val);
+        check(root.right);
+    }
+    public boolean isValidBST(TreeNode root) {
+        boolean f = true;
+        check(root);
+        for(int i=1;i<ar.size();i++){
+            if(ar.get(i-1)>=ar.get(i))
+                 f=false;
+        }
+        return f;
+    }
+}
