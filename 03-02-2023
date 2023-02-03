@@ -92,3 +92,29 @@ class Solution {
         return false;
     }
 }
+
+//Convert sorted list to binary search tree
+
+class Solution {
+    List<ListNode> l = new ArrayList<>();
+    public TreeNode check(int low, int high){
+        if(low>high){
+            return null;
+        }
+        int value = low+(high-low)/2;
+        TreeNode tree = new TreeNode(l.get(value).val);
+        tree.left = check(low,value-1);
+        tree.right = check(value+1,high);
+        return tree;
+    }
+    public TreeNode sortedListToBST(ListNode head) {
+        if(head==null){
+            return null;
+        }
+        while(head!=null){
+            l.add(head);
+            head = head.next;
+        }
+        return check(0,l.size()-1);
+    }
+}
