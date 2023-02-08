@@ -1,0 +1,67 @@
+//All elements in two BST
+
+class Solution {
+    public void order(TreeNode root,List<Integer> l){
+        if(root==null){
+            return;
+        }
+        order(root.left,l);
+        l.add(root.val);
+        order(root.right,l);
+    }
+    public List<Integer> getAllElements(TreeNode root1, TreeNode root2) {
+        //inorder
+        List<Integer> l = new LinkedList<>();
+        order(root1,l);
+        order(root2,l);
+        Collections.sort(l);
+        return l;
+    }
+}
+
+// Balanced binary tree
+
+class Solution {
+    boolean b = true;
+    public int check(TreeNode root){
+        if(root==null){
+            return 0;
+        }
+        int l = check(root.left);
+        int r = check(root.right);
+        if(Math.abs(l-r)>1){
+            b= false;
+        }
+        return Math.max(l,r)+1;
+    }
+    public boolean isBalanced(TreeNode root) {
+        check(root);
+        return b;
+    }
+}
+
+//Binary tree paths
+
+class Solution {
+    List<String> l = new ArrayList<>();
+    public void result(TreeNode root, String value){
+        if(root==null){
+            return;
+        }
+        //preorder
+        if(root.left==null && root.right==null){
+            value+=Integer.toString(root.val);
+            l.add(value);
+        }
+        else{
+            value+=Integer.toString(root.val)+"->";
+        }
+        result(root.left,value);
+        result(root.right,value);
+    }
+    public List<String> binaryTreePaths(TreeNode root) {
+        String start="";
+        result(root,start);
+        return l;
+    }
+}
