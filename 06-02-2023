@@ -56,3 +56,30 @@ class Solution {
         return image;
     }
 }
+
+//Increasing order search tree
+
+class Solution {
+    TreeNode t = null;
+    TreeNode curr = null;
+    public void check(TreeNode root){
+        if(root==null){
+            return;
+        }
+        check(root.left);
+        if(t==null){
+            t=root;
+            curr=root;
+        }
+        else{
+            curr.right=root;
+            curr=curr.right;
+            curr.left=null;
+        }
+        check(root.right);
+    }
+    public TreeNode increasingBST(TreeNode root) {
+        check(root);
+        return t;
+    }
+}
