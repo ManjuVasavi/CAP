@@ -1,0 +1,93 @@
+//Roads and libraries 
+class Result{
+    static int n_cities;
+    public static void dfs(List<List<Integer>> adj, boolean[] visited, int source){
+        visited[source]=true;
+        n_cities++;
+        for(int neigh: adj.get(source)){
+            if(visited[neigh]==false){
+                dfs(adj,visited,neigh);
+            }
+        }
+    }
+    public static long roadsAndLibraries(int n, int c_lib, int c_road, List<List<Integer>> cities) {
+    // Write your code here
+        List<List<Integer>> adj = new ArrayList<>();
+        for(int i=0;i<=n;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int i=0;i<cities.size();i++){
+            adj.get(cities.get(i).get(0)).add(cities.get(i).get(1));
+            adj.get(cities.get(i).get(1)).add(cities.get(i).get(0));
+        }
+        boolean[] visited = new boolean[n+1];
+        long cost = 0;
+        for(int i=1;i<=n;i++){
+            if(visited[i]==false){
+                n_cities=0;
+                dfs(adj,visited,i);
+                cost+=Math.min(((n_cities-1)*c_road)+(1*c_lib),(n_cities*c_lib));
+            }
+        }
+        return cost;
+    }
+
+}
+//Snakes and ladders the quickest way up
+class Result {
+
+    /*
+     * Complete the 'quickestWayUp' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. 2D_INTEGER_ARRAY ladders
+     *  2. 2D_INTEGER_ARRAY snakes
+     */
+    //to store start and end positions of snake and ladder
+    static HashMap<Integer,Integer> hm = new HashMap<>();
+    static int minRolls;
+    static Set<Integer> route;
+    public static void sandl(List<List<Integer>> ladders, List<List<Integer>> snakes){
+        for(int i=0;i<ladders.size();i++){
+            hm.put(ladders.get(i).get(0),ladders.get(i).get(1));
+        }
+        for(int i=0;i<snakes.size();i++){
+            hm.put(snakes.get(i).get(0),snakes.get(i).get(1));
+        }
+    }
+    public static int quickestWayUp(List<List<Integer>> ladders, List<List<Integer>> snakes) {
+    // Write your code here
+        minRolls=0;
+        sandl(ladders,snakes);
+        route = new HashSet<>();
+        Queue<Integer> q = new LinkedList<>();
+        q.add(1);
+        while(!q.isEmpty()){
+            minRolls++;
+            int size = q.size();
+            for(int i=0;i<size;i++){
+                int currposition = q.poll();
+                for(int j=6;j>0;j--){
+                    int newposition = currposition+j;
+                    if(hm.containsKey(newposition)){
+                        route.add(newposition);
+                        newposition = hm.get(newposition);
+                        //q.add(newposition);
+                    }
+                    if(newposition==100){
+                        hm.clear();
+                        return minRolls;
+                    }
+                    if(!route.contains(newposition) && newposition<100){
+                        route.add(newposition);
+                        q.add(newposition);
+                    }
+                }
+            }
+        }
+        hm.clear();
+        return -1;
+    }
+
+}
