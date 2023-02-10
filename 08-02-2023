@@ -36,3 +36,24 @@ class Solution {
         return true;
     }
 }
+
+//Flood fill
+
+class Solution {
+    public void check(int[][] image, int sr, int sc, int color, int oldcolour){
+        int rows = image.length;
+        int columns = image[0].length;
+        if((sr>=0 && sr<rows) && (sc>=0 && sc<columns) && (image[sr][sc]==oldcolour) && (image[sr][sc]!=color)){
+            image[sr][sc]=color;
+            check(image,sr-1,sc,color,oldcolour);
+            check(image,sr,sc+1,color,oldcolour);
+            check(image,sr+1,sc,color,oldcolour);
+            check(image,sr,sc-1,color,oldcolour);
+        }
+    }
+    public int[][] floodFill(int[][] image, int sr, int sc, int color) {
+        int oldcolour = image[sr][sc];
+        check(image,sr,sc,color,oldcolour);
+        return image;
+    }
+}
