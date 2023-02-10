@@ -57,3 +57,35 @@ class Solution {
         return image;
     }
 }
+
+//Time needed to inform all employees
+
+class Solution {
+    public int numOfMinutes(int n, int headID, int[] manager, int[] informTime) {
+        int max=0;
+        if(n==1){
+            return 0;
+        }
+        List<List<Integer>> l = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            l.add(new ArrayList<>());
+        }
+        for(int i=0;i<n;i++){
+            if(manager[i]!=-1){
+                l.get(manager[i]).add(i);
+            }
+        }
+        int[] time = new int[n];
+        Queue<Integer> q = new LinkedList<>();
+        q.add(headID);
+        while(!q.isEmpty()){
+            int value = q.poll();
+            for(int data: l.get(value)){
+                time[data]=time[value]+informTime[value];
+                max = Math.max(max,time[data]);
+                q.add(data);
+            }
+        }
+        return max;
+    }
+}
