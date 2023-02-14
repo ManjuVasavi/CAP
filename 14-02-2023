@@ -1,0 +1,53 @@
+//critical connections in a network
+
+class Solution {
+    int time=1;
+    public void dfs(int start, int parent, List<List<Integer>> adj, int[] visited, int[] discovery, int[] low, List<List<Integer>> bridges){
+        visited[start]=1;
+        discovery[start]=low[start]=time;
+        time++;
+        for(int neigh: adj.get(start)){
+            if(neigh==parent)
+                continue;
+            if(visited[neigh]==0){
+                dfs(neigh,start,adj,visited,discovery,low,bridges);
+                //get low updated
+                low[start]=Math.min(low[start],low[neigh]);
+                //check for bridge
+                if(low[neigh]>discovery[start]){
+                    bridges.add(Arrays.asList(neigh,start));
+                }
+            }
+            //if it is already visited
+            else{
+                low[start]=Math.min(low[start],low[neigh]);
+            }
+        }
+    }
+    public List<List<Integer>> criticalConnections(int n, List<List<Integer>> connections) {
+        List<List<Integer>> adj = new ArrayList<>();
+        for(int i=0;i<n;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(List<Integer> l: connections){
+            int u = l.get(0);
+            int v = l.get(1);
+            adj.get(u).add(v);
+            adj.get(v).add(u);
+        }
+        // for(int i=0;i<n;i++){
+        //     adj.get(connections.get(i).get(0)).add(connections.get(i).get(1));
+        //     adj.get(connections.get(i).get(1)).add(connections.get(i).get(0));
+        // }
+        // for(int i=0;i<adj.get(1).size();i++){
+        //     System.out.println(adj.get(1).get(i));
+        // }
+        int[] visited = new int[n];
+        int[] discovery = new int[n];
+        int[] low = new int[n];
+        List<List<Integer>> bridges = new ArrayList<>();
+        //node,parent
+        dfs(0,-1,adj,visited,discovery,low,bridges);
+        return bridges;
+    }
+}
