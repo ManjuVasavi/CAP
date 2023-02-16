@@ -1,0 +1,166 @@
+//prims algorithm
+
+class Result {
+
+    /*
+     * Complete the 'prims' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts following parameters:
+     *  1. INTEGER n
+     *  2. 2D_INTEGER_ARRAY edges
+     *  3. INTEGER start
+     */
+    static List<List<tri>> adj= new ArrayList<>();
+    public static class Pair implements Comparable<Pair>{
+        int node;
+        int cost;
+        Pair(int node,int cost){
+            this.node=node;
+            this.cost=cost;
+        }
+        @Override 
+        public int compareTo(Pair p2){
+            return this.cost-p2.cost;
+        }
+    }
+    public static class tri{
+        int src;
+        int dest;
+        int weight;
+        tri(int s,int d,int w){
+            this.src=s;
+            this.dest=d;
+            this.weight=w;
+        }
+    }
+    public static int prims(int n, List<List<Integer>> edges, int start) {
+        ArrayList<Integer> l= new ArrayList<>();
+        for(int i=0;i<n;i++){
+            adj.add(new ArrayList<>());
+        }
+        for(int i=0;i<edges.size();i++){
+            adj.get(edges.get(i).get(0)-1).add(new tri(edges.get(i).get(0)-1,edges.get(i).get(1)-1,edges.get(i).get(2)));
+            adj.get(edges.get(i).get(1)-1).add(new tri(edges.get(i).get(1)-1,edges.get(i).get(0)-1,edges.get(i).get(2)));
+        }
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+        boolean[] visited = new boolean[n];
+        pq.add(new Pair(start-1,0));
+        int res_cost=0;
+        while(!pq.isEmpty()){
+            Pair temp=pq.poll();
+            if(!visited[temp.node]){
+                visited[temp.node]=true;
+                res_cost=res_cost+temp.cost;
+            }
+            for(tri e:adj.get(temp.node)){
+                if(!visited[e.dest]){
+                    pq.add(new Pair(e.dest,e.weight));
+                }
+            }
+        }
+        return res_cost;
+    }
+
+}
+
+//kruskals algorithm
+
+class Result {
+
+    /*
+     * Complete the 'kruskals' function below.
+     *
+     * The function is expected to return an INTEGER.
+     * The function accepts WEIGHTED_INTEGER_GRAPH g as parameter.
+     */
+
+    /*
+     * For the weighted graph, <name>:
+     *
+     * 1. The number of nodes is <name>Nodes.
+     * 2. The number of edges is <name>Edges.
+     * 3. An edge exists between <name>From[i] and <name>To[i]. The weight of the edge is <name>Weight[i].
+     *
+     */
+
+    public static class edge{
+        int source;
+        int destination;
+        int weight;
+        edge(int source,int destination,int weight){
+            this.source = source;
+            this.destination = destination;
+            this.weight = weight;
+        }
+    }
+    public static class subset{
+        int parent;
+        int rank;
+        subset(int parent,int rank){
+            this.parent = parent;
+            this.rank = rank;
+        }
+    }
+    public static int find(subset[] subset,int n){
+        if(subset[n].parent==n){
+            return subset[n].parent;
+        }
+        subset[n].parent = find(subset, subset[n].parent);
+        return subset[n].parent;
+    }
+    public static void union(subset[] subset, int x, int y){
+        int rx = find(subset,x);
+        int ry = find(subset,y);
+        //shortest rank will be replaced with highest rank
+        if(subset[rx].rank>subset[ry].rank){
+            subset[ry].parent = subset[rx].parent;
+        }
+        else if(subset[ry].rank>subset[rx].rank){
+            subset[rx].parent = subset[ry].parent;
+        }
+        else{
+            subset[ry].parent=subset[rx].parent;
+            subset[rx].rank++;
+        }
+    }
+    public static int kruskals(int gNodes, List<Integer> gFrom, List<Integer> gTo, List<Integer> gWeight) {
+        List<edge> edges = new ArrayList<>();
+        for(int i=0;i<gFrom.size();i++){
+            edges.add(new edge(gFrom.get(i),gTo.get(i),gWeight.get(i)));
+        }
+        edges.sort(new Comparator<edge>() {
+            @Override
+            public int compare(edge o1, edge o2) {
+                return o1.weight - o2.weight;
+            }
+        });
+        subset[] subset = new subset[gNodes+1];
+        for(int i=0;i<subset.length;i++){
+            subset[i]=new subset(i,0);
+        }
+        edge[] result = new edge[gNodes];
+        int j=0;//used for accessing edges
+        int noofedges=0;//used for considered edges
+        while(noofedges<gNodes-1){
+            edge val = edges.get(j);
+            int x = find(subset,val.source);
+            int y = find(subset,val.destination);
+            if(x!=y){
+                result[noofedges]=val;
+                union(subset,x,y);
+                noofedges++;
+            }
+            j++;
+        }
+        int cost = 0;
+        for(int i=0;i<noofedges;i++){
+            cost+=result[i].weight;
+        }
+        System.out.println(cost);
+        return cost;
+    }
+
+}
+
+}
