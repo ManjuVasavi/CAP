@@ -1,0 +1,200 @@
+//Alternate even odd series
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        String s = sc.next();
+        ArrayList<Integer> even = new ArrayList<>();
+        ArrayList<Integer> odd = new ArrayList<>();
+        int specialcount=0;
+        String result="";
+        for(int i=0;i<s.length();i++){
+            if(Character.isDigit(s.charAt(i))){
+                int val = Integer.parseInt(s.substring(i,i+1));
+                if(val%2==0){
+                    even.add(val);
+                }
+                else{
+                    odd.add(val);
+                }
+            }
+            else if(!Character.isLetter(s.charAt(i)) && !Character.isDigit(s.charAt(i))){
+                specialcount++;
+            }
+        }
+        int maxlength = 0;
+        if(even.size()<=odd.size()){
+            maxlength = even.size();
+        }
+        else{
+            maxlength = odd.size();
+        }
+        int iterator=0;
+        // System.out.println(odd.get(odd.size()-1));
+        if(specialcount%2==0){
+            for(iterator=0;iterator<maxlength;iterator++){
+                result+=String.valueOf(even.get(iterator))+String.valueOf(odd.get(iterator));
+            }
+            while(iterator<even.size()){
+                result+=String.valueOf(even.get(iterator));
+                iterator++;
+            }
+            while(iterator<odd.size()){
+                result+=String.valueOf(odd.get(iterator));
+                iterator++;
+            }
+        }
+        else{
+            for(iterator=0;iterator<maxlength;iterator++){
+                result+=String.valueOf(odd.get(iterator))+String.valueOf(even.get(iterator));
+            }
+            while(iterator<even.size()){
+                result+=String.valueOf(even.get(iterator));
+                iterator++;
+            }
+            while(iterator<odd.size()){
+                result+=String.valueOf(odd.get(iterator));
+                iterator++;
+            }
+        }
+        System.out.println(result);
+    }
+}
+
+//kth non repeating character
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        String str = sc.next();
+        int checkval = sc.nextInt();
+        HashMap<Character,Integer> hm = new HashMap<>();
+        for(int i=0;i<str.length();i++){
+            if(!hm.containsKey(str.charAt(i))){
+                hm.put(str.charAt(i),1);
+            }
+            else{
+                hm.put(str.charAt(i),hm.get(str.charAt(i))+1);
+            }
+        }
+        ArrayList<Character> arr = new ArrayList<>();
+        for(int i=0;i<str.length();i++){
+            if(!arr.contains(str.charAt(i)) && hm.get(str.charAt(i))==1){
+                arr.add(str.charAt(i));
+            }
+        }
+        if(arr.size()==0){
+            System.out.println("-1");
+        }
+        else if((checkval)>arr.size()){
+            System.out.println("-1");
+        }
+        else{
+            System.out.println(arr.get(checkval-1));
+        }
+    }
+}
+
+//anti palindrome string
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        int testcases = sc.nextInt();
+        for(int i=0;i<testcases;i++){
+            boolean flag = true;//palindrome
+            String s = sc.next();
+            for(int j=0;j<(s.length()/2);j++){
+                if(s.charAt(j)!=s.charAt(s.length()-j-1))
+                    flag = false;
+            }
+            char[] ch = s.toCharArray();
+            Arrays.sort(ch);
+            String s1 = new String(ch);
+            if(flag==false){
+                System.out.println(s1);
+            }
+            else if(flag==true && s.equals(s1)){
+                System.out.println("-1");
+            }
+            else{
+                System.out.println(s1);
+            }
+        }
+    }
+}
+
+//two numbers 3
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc=new Scanner(System.in);
+        String str=sc.nextLine();
+        ArrayList<Character> arr = new ArrayList<>();
+        for(int i=0;i<str.length();i++){
+            if(Character.isDigit(str.charAt(i))){
+                arr.add(str.charAt(i));
+            }
+        }
+        int fivei = arr.indexOf('5');
+        int eighti = arr.indexOf('8');
+        int first = 0;
+        String second = "";
+        for(int i=0;i<arr.size();i++){
+            if(i<fivei || i>eighti){
+                first+=arr.get(i)-'0';
+            }
+            else{
+                second+=arr.get(i);
+            }
+        }
+        int seco = Integer.parseInt(second);
+        System.out.println(first+seco);
+    }
+}
+
+//form largest even number
+
+public class Solution {
+
+    public static void main(String[] args) {
+        /* Enter your code here. Read input from STDIN. Print output to STDOUT. Your class should be named Solution. */
+        Scanner sc = new Scanner(System.in);
+        String str = sc.next();
+        ArrayList<Character> arr = new ArrayList<>();
+        for(int i=0;i<str.length();i++){
+            if(Character.isDigit(str.charAt(i)) && !arr.contains(str.charAt(i))){
+                arr.add(str.charAt(i));
+            }
+        }
+        Collections.sort(arr);
+        Character evenval = 'a';
+        String result = "";
+        for(int i=0;i<arr.size();i++){
+            if((arr.get(i)-'0')%2==0){
+                evenval = arr.get(i);
+                break;
+            }
+        }
+        for(int i=arr.size()-1;i>=0;i--){
+            if(arr.get(i)!=evenval){
+                result+=arr.get(i);
+            }
+        }
+        result+=evenval;
+        if(evenval=='a'){
+            System.out.println("-1");
+        }
+        else{
+            System.out.println(result);
+        }
+    }
+}
