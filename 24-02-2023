@@ -1,0 +1,21 @@
+//subset sums
+
+class Solution{
+    public void geeks(int index, int sum, ArrayList<Integer> arr, int N, ArrayList<Integer> res){
+        //the resultant sum will come at leaf nodes.
+        if(index==N){
+            res.add(sum);
+            return;
+        }
+        //considering that element for sum
+        geeks(index+1,sum+arr.get(index),arr,N,res);
+        //without considering that element
+        geeks(index+1,sum,arr,N,res);
+    }
+    ArrayList<Integer> subsetSums(ArrayList<Integer> arr, int N){
+        // create a function which can perform the task of adding sum
+        ArrayList<Integer> res = new ArrayList<>();
+        geeks(0,0,arr,N,res);
+        return res;
+    }
+}
