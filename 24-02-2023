@@ -19,3 +19,27 @@ class Solution{
         return res;
     }
 }
+
+//combination sum 1
+
+class Solution {
+    public void leet(int index, int target, int[] candidates, List<List<Integer>> res, List<Integer> arr){
+        if(index==candidates.length){
+            if(target==0){
+                res.add(new ArrayList<>(arr));
+            }
+            return;
+        }
+        if(candidates[index]<=target){
+            arr.add(candidates[index]);
+            leet(index,target-candidates[index],candidates, res, arr);
+            arr.remove(arr.size()-1);
+        }
+        leet(index+1,target,candidates, res, arr);
+    }
+    public List<List<Integer>> combinationSum(int[] candidates, int target) {
+        List<List<Integer>> res=new ArrayList<>();
+        leet(0,target,candidates,res,new ArrayList<>());
+        return res;
+    }
+}
